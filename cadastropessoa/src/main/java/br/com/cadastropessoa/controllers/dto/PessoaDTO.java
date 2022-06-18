@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Getter
 public class PessoaDTO {
 
-    @JsonProperty("id-pessoa")
+    @JsonProperty("id")
     private Long id;
 
     @JsonProperty("nome")
