@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+/**
+ * @author Raimundo Lenildo (lenildo.neto@gmail.com)
+ * @since 13/06/2022
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -26,7 +30,7 @@ public class PessoaDTO {
     @JsonProperty("email")
     private String email;
 
-    @JsonProperty("data-nascimento")
+    @JsonProperty("dataNascimento")
     private LocalDate dataNascimento;
 
     @JsonProperty("naturalidade")

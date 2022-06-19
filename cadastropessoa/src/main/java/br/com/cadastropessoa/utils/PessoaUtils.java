@@ -8,6 +8,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Pattern;
 
+/**
+ * @author Raimundo Lenildo (lenildo.neto@gmail.com)
+ * @since 13/06/2022
+ */
 public class PessoaUtils {
 
     public static String toMd5(String senha){

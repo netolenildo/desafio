@@ -1,4 +1,5 @@
 import React from "react";
+import { api } from "../../configuration/api";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -11,20 +12,61 @@ import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import { FormControl } from "@mui/material";
 import InputMask from "react-input-mask";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import { useNavigate } from "react-router-dom";
 
 function Form() {
+  const navigate = useNavigate();
+
+  function listar() {
+    navigate("/");
+  }
+
+  const [pessoa, setPessoa] = React.useState({
+    nome: "",
+    cpf: "",
+    dataNascimento: "",
+    sexo: "",
+    naturalidade: "",
+    nacionalidade: "",
+  });
+
+  function handlePessoa(field, event) {
+    setPessoa({ ...pessoa, [field]: event.target.value });
+  }
+
+  function cadastrar() {
+    api.post("/pessoa", pessoa, {
+      auth: { username: "usuario", password: "senha" },
+    });
+
+    listar();
+  }
+
   const theme = createTheme();
-
-  const [sexo, setSexo] = React.useState("");
-
-  const [cpf, setCpf] = React.useState("");
-
-  const handleChange = (event) => {
-    setSexo(event.target.value);
-  };
 
   return (
     <ThemeProvider theme={theme}>
+      <AppBar position="static" fullWidth>
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          ></IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Cadastro de Pessoa
+          </Typography>
+          <Button color="inherit" onClick={() => listar()}>
+            Listar
+          </Button>
+        </Toolbar>
+      </AppBar>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -45,15 +87,15 @@ function Form() {
                   id="nome"
                   label="Nome"
                   autoFocus
+                  onChange={(e) => handlePessoa("nome", e)}
                 />
               </Grid>
               <Grid item xs={12} sm={12}>
                 <InputMask
                   mask="999.999.999-99"
-                  value={cpf}
                   disabled={false}
                   maskChar=" "
-                  onChange={(e) => setCpf(e.target.value)}
+                  onChange={(e) => handlePessoa("cpf", e)}
                 >
                   {() => <TextField label="CPF" required fullWidth />}
                 </InputMask>
@@ -66,6 +108,7 @@ function Form() {
                   label="Data de Nascimento"
                   name="data-nascimento"
                   type="date"
+                  onChange={(e) => handlePessoa("dataNascimento", e)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -76,10 +119,10 @@ function Form() {
                   <Select
                     labelId="label-sexo"
                     id="sexo"
-                    value={sexo}
+                    value={pessoa.sexo}
                     label="Sexo"
                     name="sexo"
-                    onChange={handleChange}
+                    onChange={(e) => handlePessoa("sexo", e)}
                   >
                     <MenuItem value={"M"}>Masculino</MenuItem>
                     <MenuItem value={"F"}>Feminino</MenuItem>
@@ -94,6 +137,7 @@ function Form() {
                   label="E-mail"
                   name="email"
                   autoComplete="email"
+                  onChange={(e) => handlePessoa("email", e)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -102,6 +146,7 @@ function Form() {
                   name="naturalidade"
                   label="Naturalidade"
                   id="naturalidade"
+                  onChange={(e) => handlePessoa("naturalidade", e)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -110,6 +155,7 @@ function Form() {
                   name="nacionalidade"
                   label="Nacionalidade"
                   id="nacionalidade"
+                  onChange={(e) => handlePessoa("nacionalidade", e)}
                 />
               </Grid>
             </Grid>
@@ -118,6 +164,7 @@ function Form() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={() => cadastrar()}
             >
               Cadastrar
             </Button>

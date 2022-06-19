@@ -29,13 +29,8 @@ public class PessoaController {
 
     @PostMapping
     public ResponseEntity<PessoaDTO> salvar(@RequestBody PessoaDTO dto){
-        Pessoa pessoa = null;
 
-        try {
-            pessoa = service.salvar(PessoaMapper.toModel(dto));
-        }catch (NegocioException e){
-            return ResponseEntity.notFound().build();
-        }
+        Pessoa pessoa = service.salvar(PessoaMapper.toModel(dto));
 
         return ResponseEntity.ok(PessoaMapper.toDto(pessoa));
     }

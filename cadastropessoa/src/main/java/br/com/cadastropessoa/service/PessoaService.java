@@ -37,7 +37,6 @@ public class PessoaService {
             throw new NegocioException("Já existe uma pessoa cadastrada com o CPF informado.");
         }
 
-
         pessoa.setDataCadastro(LocalDateTime.now());
         return repository.save(pessoa);
     }
@@ -52,10 +51,12 @@ public class PessoaService {
             throw new NegocioException("Já existe uma pessoa cadastrada com o CPF informado.");
         }
 
+        pessoa.setDataCadastro(repository.getDataCadastroByIdPessoa(pessoa.getId()));
         pessoa.setDataAtualizacao(LocalDateTime.now());
         return repository.save(pessoa);
     }
 
+    @Transactional
     public void remover(Long id){
         repository.deleteById(id);
     }
